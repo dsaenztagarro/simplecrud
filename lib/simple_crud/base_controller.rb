@@ -14,7 +14,9 @@ module SimpleCrud
       end
 
       def default_crud
-        debugger
+        matches = self.to_s.match /(?<name>.*)Controller/
+        klass = matches[:name].singularize.constantize
+        crud_for(klass)
       end
     end
 
