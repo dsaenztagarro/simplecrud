@@ -9,7 +9,7 @@ module SimpleCrud
     class << self
       attr_accessor :model_klass
 
-      def crud_for(klass, opts = {})
+      def crud_for(klass)
         @model_klass = klass
       end
 

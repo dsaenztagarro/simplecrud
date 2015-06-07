@@ -1,8 +1,6 @@
 # SimpleCrud
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/simple_crud`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This is the easy way to create CRUDs for Rails controllers.
 
 ## Installation
 
@@ -20,9 +18,37 @@ Or install it yourself as:
 
     $ gem install simple_crud
 
+Add an initializer to your rails app:
+
+```ruby
+# config/initializers/simplecrud.rb
+require 'simple_crud/base_controller'
+```
+
 ## Usage
 
-TODO: Write usage instructions here
+Create your controllers in this way:
+
+```ruby
+class DeviceController < SimpleCrud::BaseController
+  default_crud
+end
+```
+
+You will have available the expected `@device` or `@devices` instance var in 
+the views.
+
+Case the name of your controller doesn't match the name of the model associated
+you could use also:
+
+```ruby
+class MyCustomController < SimpleCrud::BaseController
+  crud_for Device 
+end
+```
+
+To check the real code injected into the controllers check the source code: `lib/simple_crud/base_controller`
+
 
 ## Development
 
