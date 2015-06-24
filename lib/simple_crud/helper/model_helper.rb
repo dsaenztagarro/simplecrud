@@ -1,5 +1,5 @@
 module SimpleCrud
-  module Accessors
+  module ModelHelper
     def model_klass
       self.class.model_klass
     end

@@ -1,8 +1,11 @@
-require_relative 'accessors'
+require_relative 'helper/model_helper'
+require_relative 'helper/decorator_helper'
 
 module SimpleCrud
   class BaseController < ::ApplicationController
-    include Accessors
+    include ModelHelper
+    include DecoratorHelper
+
     before_filter :find_model, :only => [:show, :edit, :update, :destroy]
     respond_to :html, :json
 
@@ -51,7 +54,7 @@ module SimpleCrud
 
       respond_to do |wants|
         if model.save
-          flash[:notice] = 'model_klass was successfully created.'
+          flash[:notice] = "#{t "model.#{model_name}"} was successfully created."
           wants.html { redirect_to(model) }
           wants.json  { render :json => model, :status => :created, :location => model }
         else
@@ -65,8 +68,8 @@ module SimpleCrud
     # PUT /models/1.json
     def update
       respond_to do |wants|
-        if model.update_attributes(params[:model])
-          flash[:notice] = 'model_klass was successfully updated.'
+        if model.update_attributes(model_params)
+          flash[:notice] = "#{t "model.#{model_name}"} was successfully updated."
           wants.html { redirect_to(model) }
           wants.json  { head :ok }
         else
