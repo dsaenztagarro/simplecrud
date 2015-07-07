@@ -39,7 +39,7 @@ module SimpleCrud
     # GET /models/new
     # GET /models/new.json
     def new
-      model! model_klass.new
+      set_model model_klass.new
       respond_with model
     end
 
@@ -50,7 +50,7 @@ module SimpleCrud
     # POST /models
     # POST /models.json
     def create
-      model! model_klass.new(model_params)
+      set_model model_klass.new(model_params)
 
       respond_to do |wants|
         if model.save
@@ -93,7 +93,16 @@ module SimpleCrud
     private
 
     def find_model
-      model! model_klass.find(params[:id])
+      set_model decorate_model(model_klass.find(params[:id]))
+    end
+
+    def decorate_model(object)
+      decorate_action = "decorate_#{params[:action]}"
+      if respond_to? decorate_action
+        send(decorate_action, object)
+      else
+        object
+      end
     end
   end
 end

@@ -8,7 +8,7 @@ module SimpleCrud
       instance_variable_get model_var
     end
 
-    def model!(value)
+    def set_model(value)
       instance_variable_set model_var, value
     end
 
