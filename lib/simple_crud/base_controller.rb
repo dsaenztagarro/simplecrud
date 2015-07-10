@@ -7,7 +7,7 @@ module SimpleCrud
     include DecoratorHelper
 
     before_filter :find_model, :only => [:show, :edit, :update, :destroy]
-    respond_to :html, :json
+    respond_to :html, :json, :js
 
     class << self
       attr_accessor :model_klass
@@ -57,6 +57,7 @@ module SimpleCrud
           flash[:notice] = "#{t "model.#{model_name}"} was successfully created."
           wants.html { redirect_to(model) }
           wants.json  { render :json => model, :status => :created, :location => model }
+					wants.js { }
         else
           wants.html { render :action => "new" }
           wants.json  { render :json => model.errors, :status => :unprocessable_entity }
