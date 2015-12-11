@@ -4,11 +4,13 @@ module SimpleCrud
       self.class.model_klass
     end
 
+    # model related methods
+
     def model
       instance_variable_get model_var
     end
 
-    def model!(value)
+    def model_set(value)
       instance_variable_set model_var, value
     end
 
@@ -16,19 +18,17 @@ module SimpleCrud
       model_klass.to_s.underscore.downcase
     end
 
-    def model_params
-      send "#{model_name}_params"
-    end
-
     def model_var
       "@#{model_name}"
     end
+
+    # models related methods
 
     def models
       instance_variable_get models_var
     end
 
-    def models!(value)
+    def models_set(value)
       instance_variable_set models_var, value
     end
 
@@ -38,6 +38,21 @@ module SimpleCrud
 
     def models_var
       "@#{models_name}"
+    end
+
+    # strong parameter methods
+
+    def model_params
+      method = permission_method
+      if respond_to?(method, :include_private)
+        send method
+      else
+        raise ArgumentError, 'Unimplemented permission method'
+      end
+    end
+
+    def permission_method
+      "#{model_name}_params"
     end
   end
 end
