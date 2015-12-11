@@ -26,7 +26,7 @@ module SimpleCrud
     # GET /models
     # GET /models.json
     def index
-      models! model_klass.all
+      models_set model_klass.all
       respond_with models
     end
 
@@ -39,7 +39,7 @@ module SimpleCrud
     # GET /models/new
     # GET /models/new.json
     def new
-      model! model_klass.new
+      model_set model_klass.new
       respond_with model
     end
 
@@ -50,7 +50,7 @@ module SimpleCrud
     # POST /models
     # POST /models.json
     def create
-      model! model_klass.new(model_params)
+      model_set model_klass.new(model_params)
 
       respond_to do |wants|
         if model.save
@@ -83,9 +83,10 @@ module SimpleCrud
     # DELETE /models/1.json
     def destroy
       model.destroy
+      debugger
 
       respond_to do |wants|
-        wants.html { redirect_to(models_url) }
+        wants.html { redirect_to(models_path) }
         wants.json  { head :ok }
       end
     end
@@ -93,7 +94,7 @@ module SimpleCrud
     private
 
     def find_model
-      model! model_klass.find(params[:id])
+      model_set model_klass.find(params[:id])
     end
   end
 end

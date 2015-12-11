@@ -40,6 +40,10 @@ module SimpleCrud
       "@#{models_name}"
     end
 
+    def models_path
+      send "#{models_name}_path"
+    end
+
     # strong parameter methods
 
     def model_params
