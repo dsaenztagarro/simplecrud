@@ -54,7 +54,7 @@ module SimpleCrud
 
       respond_to do |wants|
         if model.save
-          flash[:notice] = "#{t "model.#{model_name}"} was successfully created."
+          flash[:notice] = t 'messages.record_created', model: t("models.#{model_name}")
           wants.html { redirect_to(model) }
           wants.json  { render :json => model, :status => :created, :location => model }
         else
@@ -69,7 +69,7 @@ module SimpleCrud
     def update
       respond_to do |wants|
         if model.update_attributes(model_params)
-          flash[:notice] = "#{t "model.#{model_name}"} was successfully updated."
+          flash[:notice] = t 'messages.record_updated', model: t("models.#{model_name}")
           wants.html { redirect_to(model) }
           wants.json  { head :ok }
         else
@@ -83,7 +83,7 @@ module SimpleCrud
     # DELETE /models/1.json
     def destroy
       model.destroy
-      debugger
+      flash[:notice] = t 'messages.record_destroyed', model: t("models.#{model_name}")
 
       respond_to do |wants|
         wants.html { redirect_to(models_path) }
