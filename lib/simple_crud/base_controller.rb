@@ -53,7 +53,9 @@ module SimpleCrud
       model_set model_klass.new(model_params)
 
       respond_to do |wants|
-        if model.save
+        result = model.save
+        call_hook :after_save, result
+        if result
           flash[:notice] = t 'messages.record_created', model: t("models.#{model_name}")
           wants.html { redirect_to(model) }
           wants.json  { render :json => model, :status => :created, :location => model }
@@ -68,7 +70,9 @@ module SimpleCrud
     # PUT /models/1.json
     def update
       respond_to do |wants|
-        if model.update_attributes(model_params)
+        result = model.update_attributes(model_params)
+        call_hook :after_update_attributes, result
+        if result
           flash[:notice] = t 'messages.record_updated', model: t("models.#{model_name}")
           wants.html { redirect_to(model) }
           wants.json  { head :ok }
@@ -82,7 +86,8 @@ module SimpleCrud
     # DELETE /models/1
     # DELETE /models/1.json
     def destroy
-      model.destroy
+      result = model.destroy
+      call_hook :after_destroy, result
       flash[:notice] = t 'messages.record_destroyed', model: t("models.#{model_name}")
 
       respond_to do |wants|
@@ -96,5 +101,10 @@ module SimpleCrud
     def find_model
       model_set model_klass.find(params[:id])
     end
+
+    def call_hook(method, *args)
+      send(method, *args) if respond_to? method
+    end
+
   end
 end
