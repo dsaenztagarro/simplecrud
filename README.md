@@ -7,7 +7,7 @@ This is the easy way to create CRUDs for Rails controllers.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'simple_crud'
+gem 'simplecrud'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install simple_crud
+    $ gem install simplecrud
 
 Add an initializer to your rails app:
 
@@ -35,7 +35,7 @@ class DeviceController < SimpleCrud::BaseController
 end
 ```
 
-You will have available the expected `@device` or `@devices` instance var in 
+You will have available the expected `@device` or `@devices` instance var in
 the views.
 
 Case the name of your controller doesn't match the name of the model associated
@@ -43,12 +43,18 @@ you could use also:
 
 ```ruby
 class MyCustomController < SimpleCrud::BaseController
-  crud_for Device 
+  crud_for Device
 end
 ```
 
 To check the real code injected into the controllers check the source code: `lib/simple_crud/base_controller`
 
+Available hooks
+---------------
+
+- `after_save`
+- `after_update_attributes`
+- `after_destroy`
 
 ## Development
 
