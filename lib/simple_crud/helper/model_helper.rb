@@ -1,52 +1,52 @@
 module SimpleCrud
-  module ModelHelper
-    def model_klass
-      self.class.model_klass
+  module ResourceHelper
+    def resource_klass
+      self.class.resource_klass
     end
 
-    # model related methods
+    # resource related methods
 
-    def model
-      instance_variable_get model_var
+    def resource_get
+      instance_variable_get resource_var
     end
 
-    def model_set(value)
-      instance_variable_set model_var, value
+    def resource_set(value)
+      instance_variable_set resource_var, value
     end
 
-    def model_name
-      model_klass.to_s.underscore.downcase
+    def resource_name
+      resource_klass.to_s.underscore.downcase
     end
 
-    def model_var
-      "@#{model_name}"
+    def resource_var
+      "@#{resource_name}"
     end
 
-    # models related methods
+    # resources related methods
 
-    def models
-      instance_variable_get models_var
+    def resources_get
+      instance_variable_get resources_var
     end
 
-    def models_set(value)
-      instance_variable_set models_var, value
+    def resources_set(value)
+      instance_variable_set resources_var, value
     end
 
-    def models_name
-      model_name.pluralize
+    def resources_name
+      resource_name.pluralize
     end
 
-    def models_var
-      "@#{models_name}"
+    def resources_var
+      "@#{resources_name}"
     end
 
-    def models_path
-      send "#{models_name}_path"
+    def resources_path
+      send "#{resources_name}_path"
     end
 
     # strong parameter methods
 
-    def model_params
+    def resource_params
       method = permission_method
       if respond_to?(method, :include_private)
         send method
@@ -56,7 +56,7 @@ module SimpleCrud
     end
 
     def permission_method
-      "#{model_name}_params"
+      "#{resource_name}_params"
     end
   end
 end

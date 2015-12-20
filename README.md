@@ -38,7 +38,7 @@ end
 You will have available the expected `@device` or `@devices` instance var in
 the views.
 
-Case the name of your controller doesn't match the name of the model associated
+Case the name of your controller doesn't match the name of the resource associated
 you could use also:
 
 ```ruby
