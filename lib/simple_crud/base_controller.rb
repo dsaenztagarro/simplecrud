@@ -26,7 +26,7 @@ module SimpleCrud
     # GET /resources
     # GET /resources.json
     def index
-      resources_set model_klass.all
+      resources_set resource_klass.all
       respond_with resources_get
     end
 
@@ -39,7 +39,7 @@ module SimpleCrud
     # GET /resources/new
     # GET /resources/new.json
     def new
-      resource_set model_klass.new
+      resource_set resource_klass.new
       respond_with resource_get
     end
 
@@ -50,15 +50,15 @@ module SimpleCrud
     # POST /resources
     # POST /resources.json
     def create
-      resource_set model_klass.new(model_params)
+      resource_set resource_klass.new(resource_params)
 
       respond_to do |wants|
         result = resource_get.save
         call_hook :after_save, result
         if result
-          flash[:notice] = t 'messages.record_created', resource: t("models.#{model_name}")
+          flash[:notice] = t 'messages.record_created', resource: t("resources.#{resource_name}")
           wants.html { redirect_to(resource_get) }
-          wants.json  { render :json => resource_get, :status => :created, :location => model }
+          wants.json  { render :json => resource_get, :status => :created, :location => resource }
         else
           wants.html { render :action => "new" }
           wants.json  { render :json => resource_get.errors, :status => :unprocessable_entity }
@@ -70,10 +70,10 @@ module SimpleCrud
     # PUT /resources/1.json
     def update
       respond_to do |wants|
-        result = resource_get.update_attributes(model_params)
+        result = resource_get.update_attributes(resource_params)
         call_hook :after_update_attributes, result
         if result
-          flash[:notice] = t 'messages.record_updated', resource: t("models.#{model_name}")
+          flash[:notice] = t 'messages.record_updated', resource: t("resources.#{resource_name}")
           wants.html { redirect_to(resource_get) }
           wants.json  { head :ok }
         else
@@ -88,7 +88,7 @@ module SimpleCrud
     def destroy
       result = resource_get.destroy
       call_hook :after_destroy, result
-      flash[:notice] = t 'messages.record_destroyed', resource: t("models.#{model_name}")
+      flash[:notice] = t 'messages.record_destroyed', resource: t("resources.#{resource_name}")
 
       respond_to do |wants|
         wants.html { redirect_to(resources_path) }
@@ -99,7 +99,7 @@ module SimpleCrud
     private
 
     def find_resource
-      resource_set model_klass.find(params[:id])
+      resource_set resource_klass.find(params[:id])
     end
 
     def call_hook(method, *args)
