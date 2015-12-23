@@ -3,8 +3,8 @@ require_relative 'helper/decorator_helper'
 
 module SimpleCrud
   class BaseController < ::ApplicationController
-    include ModelHelper
     include DecoratorHelper
+    include ResourceHelper
 
     before_filter :find_resource, :only => [:show, :edit, :update, :destroy]
     respond_to :html, :json
