@@ -56,7 +56,7 @@ module SimpleCrud
         result = resource_get.save
         call_hook :after_save, result
         if result
-          flash[:notice] = t 'messages.record_created', resource: t("resources.#{resource_name}")
+          flash[:notice] = t 'messages.record_created', resource: t("models.#{resource_name}")
           wants.html { redirect_to(resource_get) }
           wants.json  { render :json => resource_get, :status => :created, :location => resource }
         else
@@ -73,7 +73,7 @@ module SimpleCrud
         result = resource_get.update_attributes(resource_params)
         call_hook :after_update_attributes, result
         if result
-          flash[:notice] = t 'messages.record_updated', resource: t("resources.#{resource_name}")
+          flash[:notice] = t 'messages.record_updated', resource: t("models.#{resource_name}")
           wants.html { redirect_to(resource_get) }
           wants.json  { head :ok }
         else
@@ -88,7 +88,7 @@ module SimpleCrud
     def destroy
       result = resource_get.destroy
       call_hook :after_destroy, result
-      flash[:notice] = t 'messages.record_destroyed', resource: t("resources.#{resource_name}")
+      flash[:notice] = t 'messages.record_destroyed', resource: t("models.#{resource_name}")
 
       respond_to do |wants|
         wants.html { redirect_to(resources_path) }
